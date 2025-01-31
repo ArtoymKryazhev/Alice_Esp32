@@ -3,14 +3,14 @@
 
 #include <ArduinoJson.h>
 #include <optional>
-#include "C:/Dev/Edu/Arduino/Alice_Esp32/main/Enums/ActionResultStatusEnum.h"
-#include "C:/Dev/Edu/Arduino/Alice_Esp32/main/Enums/ErrorCodeEnum.h"
+#include "Enums/ActionResultStatusEnum.h"
+#include "Enums/ErrorCodeEnum.h"
 
 class ActionResultModel {
 private:
-    ActionResultStatusEnum status;                    // Обязательное поле
-    std::optional<ErrorCodeEnum> errorCode;           // Необязательное поле
-    std::optional<String> errorMessage;               // Необязательное поле
+    ActionResultStatusEnum status;                  // Обязательное поле - статус результата действия
+    std::optional<ErrorCodeEnum> errorCode;         // Необязательное поле - код ошибки
+    std::optional<String> errorMessage;             // Необязательное поле - сообщение об ошибке
 
 public:
     // Конструктор: статус, errorCode и errorMessage (все параметры)
@@ -21,7 +21,7 @@ public:
 
     // Метод для сериализации в JSON
     void serializeToJson(JsonDocument& doc) const {
-        // Сериализуем статус
+        // Сериализуем статус в строковый формат
         doc["status"] = actionResultStatusToString(status);
 
         // Если errorCode задан, добавляем его в JSON
@@ -29,7 +29,7 @@ public:
             doc["error_code"] = errorCodeToString(errorCode.value());
         }
 
-        // Если есть сообщение об ошибке, добавляем его в JSON
+        // Если есть сообщение об ошибке и оно не пустое, добавляем его в JSON
         if (errorMessage.has_value() && !errorMessage.value().isEmpty()) {
             doc["error_message"] = errorMessage.value();
         }

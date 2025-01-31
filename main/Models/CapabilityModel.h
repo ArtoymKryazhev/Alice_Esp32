@@ -1,82 +1,58 @@
-#include "HardwareSerial.h"
 #ifndef CAPABILITYMODEL_H
 #define CAPABILITYMODEL_H
 
 #include <ArduinoJson.h>
 #include <optional>
-#include "C:/Dev/Edu/Arduino/Alice_Esp32/main/Enums/CapabilityTypeEnum.h"
+#include "Enums/CapabilityTypeEnum.h"
 #include "StateModel.h"
 
+// Модель, представляющая Capability (возможности устройства)
 class CapabilityModel {
 private:
     CapabilityTypeEnum type;                // Тип Capability
     std::optional<StateModel> state;        // Необязательное состояние
 
 public:
-    // Конструктор
+    // Конструктор класса
     CapabilityModel(CapabilityTypeEnum type, std::optional<StateModel> state = std::nullopt)
         : type(type), state(state) {}
 
-    // Получить тип
+    // Получить тип Capability
     CapabilityTypeEnum getType() const {
         return type;
     }
 
-    // Установить статус действия
-    void setActionStatus(String instance, ActionResultModel actionResult) {
+    // Получить состояние (если оно есть)
+    std::optional<StateModel> getState() const {
+        return state;
+    }
+
+    // Установить состояние (будет использоваться сервисом для обновления состояния)
+    void setState(const StateModel& newState) {
+        state = newState;
+    }
+
+    // Метод для добавления результата действия (если состояние не задано, создается пустое)
+    void setActionStatus(const ActionResultModel& actionResult) {
         if (!state.has_value()) {
-            state = StateModel(instance);  // Создаем новое состояние, если его нет
+            state = StateModel("", std::nullopt, std::nullopt);  // Если состояния нет, создаём новое с пустыми значениями
         }
-        state->setActionResult(actionResult);
+        state->setActionResult(actionResult);  // Обновляем состояние с результатом действия
     }
 
-    // Сериализация в JSON
+    // Сериализация объекта в JSON
     void serializeToJson(JsonDocument& doc) const {
-        doc["type"] = capabilityTypeToString(type);
+        doc["type"] = capabilityTypeToString(type);  // Сериализуем тип capability
         if (state.has_value()) {
-            JsonDocument stateDoc;  // Создаем временный документ для сериализации состояния
-            state->serializeToJson(stateDoc);  // Сериализуем состояние в stateDoc
-            doc["state"] = stateDoc.as<JsonObject>();  // Добавляем сериализованный объект состояния
+            JsonDocument stateDoc;  // Создаём временный документ для сериализации состояния
+            state->serializeToJson(stateDoc);  // Сериализуем состояние
+            doc["state"] = stateDoc.as<JsonObject>();  // Добавляем состояние в JSON
         }
     }
 
-
-  static CapabilityModel from(const JsonObject& data) {
-
-    CapabilityTypeEnum type = CapabilityTypeEnum::UNKNOWN;
-    std::optional<StateModel> state = std::nullopt;
-
-    // Создаём модель типа CapabilityTypeEnum
-        
-
-    if (!data["type"].isNull()) {
-        type = fromCapabilityTypeEnum(data);
-    } 
-
-    // Проверяем наличие состояния и если оно есть, создаём объект StateModel
-    if (!data["state"].isNull()) {
-        state = StateModel::from(data["state"]);
-    }
-
-      return CapabilityModel(type, state);
-  }
-
-    // Статический метод для создания объектов из массива и сохранения в JsonArray
-    static JsonArray fromBatch(const JsonArray& capabilities, JsonArray& JsonArrayCapabilities) {
-      for (JsonObject capability : capabilities) {
-          // Пробуем создать CapabilityModel      
-          if (fromCapabilityTypeEnum(capability) != CapabilityTypeEnum::UNKNOWN) {
-              CapabilityModel capabilityModelOpt = CapabilityModel::from(capability);
-              JsonDocument doc;
-              capabilityModelOpt.serializeToJson(doc);        
-              JsonArrayCapabilities.add(doc);   
-          } else {
-              Serial.println("Skipping invalid capability.");
-              continue;
-          }
-      }
-
-      return JsonArrayCapabilities;     
+    // Проверка наличия состояния
+    bool hasState() const {
+        return state.has_value();  // Проверяем, есть ли состояние
     }
 };
 

@@ -30,6 +30,7 @@ public:
         : id(id), name(name), capabilities(capabilities), type(type), deviceInfo(deviceInfo), description(description) {}
 
     // Получить Capability по типу
+
     CapabilityModel* getCapabilityByType(const String type) {
         for (auto& capability : capabilities) {
             if (capabilityTypeToString(capability.getType()) == type) {
@@ -67,38 +68,7 @@ public:
         }
     }
 
-    // Статический метод для получения устройств
-    static std::vector<DeviceModel> getDevices() {
-        std::vector<DeviceModel> devices;
-
-        std::vector<CapabilityModel> capabilities = {
-            CapabilityModel(CapabilityTypeEnum::ON_OFF)//,
-            //CapabilityModel(CapabilityTypeEnum::RANGE)
-        };
-
-        DeviceInfoModel deviceInfo("manufacturer", "model", "hw_version", "sw_version");
-
-        devices.push_back(DeviceModel(
-            "light-diod-1", "Светодиод 1", DeviceTypeEnum::LIGHT, capabilities, deviceInfo
-        ));
-
-        devices.push_back(DeviceModel(
-            "light-diod-2", "Светодиод 2", DeviceTypeEnum::LIGHT, capabilities, deviceInfo
-        ));
-
-        return devices;
-    }
-
-    // Статический метод для получения устройства по ID
-    static std::optional<DeviceModel> getDeviceById(const std::string& id) {
-        static std::vector<DeviceModel> devices = getDevices();
-        for (auto& device : devices) {
-            if (device.id == id) {
-                return device;
-            }
-        }
-        return std::nullopt;
-    }
+    const std::string& getId() const {return id;}
 };
 
 #endif // DEVICE_MODEL_H

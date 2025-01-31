@@ -14,6 +14,11 @@
 #include "Enums/CapabilityTypeEnum.h"
 #include "Enums/DeviceTypeEnum.h"
 
+#include "Services/CapabilityService.h"
+
+#include "Repository/DeviceRepository.h"
+
+
 #include <WebServer.h>
 #include <ArduinoJson.h>
 #include <vector>
@@ -52,7 +57,7 @@ void handleDevicesRequest() {
 
     // 1. Запрос списка устройств или состояния устройств
     if (uri == "/v1.0/user/devices" || uri == "/v1.0/user/devices/query") {
-        std::vector<DeviceModel> devices = DeviceModel::getDevices();
+        std::vector<DeviceModel> devices = DeviceRepository::getAllDevices();
         JsonDocument doc;
         ResponseModel response(devices);
         response.serializeToJson(doc);
@@ -92,7 +97,7 @@ void handleDevicesRequest() {
                 std::string stdId = id.c_str();  // Преобразуем String в std::string
 
                 // Ищем устройство по ID
-                std::optional<DeviceModel> device = DeviceModel::getDeviceById(stdId);
+                std::optional<DeviceModel> device = DeviceRepository::getDeviceById(stdId);
 
                 if (device != std::nullopt) {  // Если устройство найдено
                     Serial.println("Устройство найдено: " + id);
@@ -102,7 +107,7 @@ void handleDevicesRequest() {
                     JsonArray JsonArrayCapabilities = JsonDocumentCapabilities.to<JsonArray>();
 
                     // Извлекаем способности устройства из JSON-запроса
-                    CapabilityModel::fromBatch(deviceData["capabilities"], JsonArrayCapabilities);
+                    CapabilityService::fromBatch(deviceData["capabilities"], JsonArrayCapabilities);
 
                     // Перебираем все способности устройства
                     for (const JsonObject& capability : JsonArrayCapabilities) {
@@ -112,7 +117,7 @@ void handleDevicesRequest() {
 
                             // Устанавливаем статус действия (например, включение устройства)
                             ActionResultModel actionResult(ActionResultStatusEnum::DONE);
-                            deviceCapability->setActionStatus("on", actionResult);
+                            CapabilityService::setActionStatus(*deviceCapability, "on", actionResult);
 
                             // Добавляем устройство в список обработанных устройств
                             resultDevices.push_back(device.value());

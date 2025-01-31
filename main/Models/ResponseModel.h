@@ -3,37 +3,38 @@
 
 #include <ArduinoJson.h>
 #include <vector>
-#include "C:/Dev/Edu/Arduino/Alice_Esp32/main/Utils/UUID.h"  // Используем ваш класс для генерации UUID
-#include "C:/Dev/Edu/Arduino/Alice_Esp32/main/Models/DeviceModel.h"  // Подключение DeviceModel
+#include "Utils/UUID.h"  // Используем класс для генерации UUID
+#include "Models/DeviceModel.h"  // Подключаем модель устройства
 
 class ResponseModel {
 private:
     std::vector<DeviceModel> devices;  // Список устройств
 
 public:
-    // Конструктор
+    // Конструктор, принимающий список устройств
     ResponseModel(const std::vector<DeviceModel>& devices)
         : devices(devices) {}
 
-    // Метод для сериализации в JSON
+    // Метод для сериализации объекта в JSON
     void serializeToJson(JsonDocument& doc) const {
-        // Генерация request_id
+        // Генерация уникального идентификатора для запроса
         String requestId = UUID::generate();
 
         // Заполнение JSON-объекта
-        doc["request_id"] = requestId;
+        doc["request_id"] = requestId;  // Идентификатор запроса
 
-        // Создание объекта payload
+        // Создание объекта payload для вложенных данных
         JsonObject payload = doc["payload"].to<JsonObject>();
-        payload["user_id"] = "Some-user-id";
+        payload["user_id"] = "Some-user-id";  // Пример user_id
 
-        // Добавление устройств в payload
+        // Добавление устройств в массив devices
         JsonArray devicesArray = payload["devices"].to<JsonArray>();
         
+        // Сериализация каждого устройства и добавление в массив
         for (const auto& device : devices) {
             JsonDocument deviceJson;
-            device.serializeToJson(deviceJson);
-            devicesArray.add(deviceJson);
+            device.serializeToJson(deviceJson);  // Сериализация устройства
+            devicesArray.add(deviceJson);  // Добавление устройства в массив
         }
     }
 };
