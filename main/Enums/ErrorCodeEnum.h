@@ -3,24 +3,24 @@
 
 #include <ArduinoJson.h>  // Подключаем библиотеку для работы с JSON
 
-// Определяем перечисление ErrorCodeEnum
+// Определяем перечисление ErrorCodeEnum, которое будет хранить коды ошибок для устройств
 enum class ErrorCodeEnum {
-    DEVICE_OFF
+    DEVICE_OFF  // Ошибка: устройство выключено
 };
 
-// Функция для преобразования перечисления в строку
+// Функция для преобразования ErrorCodeEnum в строковое представление
 const char* errorCodeToString(ErrorCodeEnum errorCode) {
     switch (errorCode) {
         case ErrorCodeEnum::DEVICE_OFF:
-            return "DEVICE_OFF";
+            return "DEVICE_OFF";  // Возвращаем строку, соответствующую коду ошибки
         default:
-            return "Unknown";
+            return "Unknown";  // По умолчанию, если код не найден
     }
 }
 
-// Функция для сериализации в JSON
+// Функция для сериализации ErrorCodeEnum в JSON
 void serializeErrorCodeToJson(ErrorCodeEnum errorCode, JsonDocument& doc) {
-    doc["errorCode"] = errorCodeToString(errorCode);
+    doc["errorCode"] = errorCodeToString(errorCode);  // Добавляем строку ошибки в JSON документ
 }
 
 #endif  // ERROR_CODE_ENUM_H

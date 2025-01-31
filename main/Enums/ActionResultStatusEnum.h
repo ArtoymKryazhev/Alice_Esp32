@@ -4,10 +4,11 @@
 #include <ArduinoJson.h>  // Для работы с JSON
 
 // Определение перечисления ActionResultStatusEnum
+// Используется для описания статуса результата действия
 enum class ActionResultStatusEnum {
-    DONE,
-    ERROR,
-    UNKNOWN
+    DONE,    // Действие выполнено успешно
+    ERROR,   // Произошла ошибка при выполнении действия
+    UNKNOWN  // Статус неопределён
 };
 
 // Функция для преобразования enum в строку
@@ -23,6 +24,7 @@ const char* actionResultStatusToString(ActionResultStatusEnum status) {
 }
 
 // Функция для сериализации в JSON
+// Сохраняет статус в объекте JSON
 void serializeActionResultStatusToJson(ActionResultStatusEnum status, JsonDocument& doc) {
     doc["status"] = actionResultStatusToString(status);
 }

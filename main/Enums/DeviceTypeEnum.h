@@ -3,7 +3,7 @@
 
 #include <ArduinoJson.h>  // Подключаем библиотеку для работы с JSON
 
-// Определяем перечисление DeviceTypeEnum
+// Определяем перечисление DeviceTypeEnum для типов устройств
 enum class DeviceTypeEnum {
     LIGHT,  // Тип устройства: Свет
 };
@@ -12,15 +12,15 @@ enum class DeviceTypeEnum {
 const char* deviceTypeToString(DeviceTypeEnum deviceType) {
     switch (deviceType) {
         case DeviceTypeEnum::LIGHT:
-            return "LIGHT";
+            return "LIGHT";  // Возвращаем строковое представление типа устройства
         default:
-            return "Unknown";
+            return "Unknown";  // Если тип устройства неизвестен, возвращаем "Unknown"
     }
 }
 
-// Функция для сериализации в JSON
+// Функция для сериализации типа устройства в JSON
 void serializeDeviceTypeToJson(DeviceTypeEnum deviceType, JsonDocument& doc) {
-    doc["deviceType"] = deviceTypeToString(deviceType);
+    doc["deviceType"] = deviceTypeToString(deviceType);  // Сохраняем строковое представление типа устройства в JSON документ
 }
 
 #endif  // DEVICE_TYPE_ENUM_H

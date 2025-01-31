@@ -6,39 +6,41 @@
 class TArray {
 public:
     // Статическая функция для извлечения значения по точечной нотации
+    // path - путь к значению в виде строки, разделённой точками.
+    // defaultValue - значение, которое будет возвращено, если путь не существует.
     static JsonVariant getValueByDotNotation(JsonObject& obj, const String& path, JsonVariant defaultValue = JsonVariant()) {
-        int startIdx = 0;
-        String key;
+        int startIdx = 0;  // Индекс начала пути
+        String key;        // Ключ для текущего сегмента пути
 
         // Начинаем с корневого объекта
         JsonVariant currentValue = obj;
 
         // Проходим по каждой части пути
         while (startIdx < path.length()) {
-            int dotIdx = path.indexOf('.', startIdx);
+            int dotIdx = path.indexOf('.', startIdx);  // Ищем разделитель точкой
 
-            // Вычисляем текущий ключ
+            // Если точка не найдена, значит, это последний сегмент пути
             if (dotIdx == -1) {
                 key = path.substring(startIdx);  // Последний сегмент пути
-                startIdx = path.length();       // Выходим из цикла
+                startIdx = path.length();        // Выход из цикла
             } else {
                 key = path.substring(startIdx, dotIdx);  // Текущий сегмент пути
-                startIdx = dotIdx + 1;
+                startIdx = dotIdx + 1;  // Обновляем индекс начала для следующего сегмента
             }
 
-            // Проверяем, является ли текущий элемент JsonObject
+            // Проверяем, является ли текущий элемент объектом JsonObject
             if (!currentValue.is<JsonObject>()) {
-                return defaultValue;  // Если текущий объект не является JsonObject, возвращаем значение по умолчанию
+                return defaultValue;  // Если текущий элемент не объект, возвращаем значение по умолчанию
             }
 
-            JsonObject currentObject = currentValue.as<JsonObject>();
+            JsonObject currentObject = currentValue.as<JsonObject>();  // Преобразуем в объект
 
-            // Если ключ отсутствует, возвращаем значение по умолчанию
+            // Если ключ отсутствует в текущем объекте, возвращаем значение по умолчанию
             if (!currentObject[key]) {
                 return defaultValue;
             }
 
-            // Переходим к следующему значению
+            // Переходим к следующему значению по ключу
             currentValue = currentObject[key];
         }
 

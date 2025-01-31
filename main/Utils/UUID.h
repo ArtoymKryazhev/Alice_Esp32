@@ -5,30 +5,32 @@
 
 class UUID {
 public:
-    // Генерация UUID версии 4
+    // Генерация UUID версии 4 (случайный UUID)
     static String generate() {
         String uuid = "";
-        
-        // Генерация каждого сегмента UUID
-        uuid += String(random(0, 0xffff), HEX);   // Первый сегмент
-        uuid += String(random(0, 0xffff), HEX);   // Второй сегмент
+
+        // Генерация первых двух сегментов UUID
+        uuid += String(random(0, 0xffff), HEX);   
+        uuid += String(random(0, 0xffff), HEX);   
         uuid += "-";
-        uuid += String(random(0, 0xffff), HEX);   // Третий сегмент (включая версию)
+
+        // Третий сегмент (произвольный)
+        uuid += String(random(0, 0xffff), HEX);   
         uuid += "-";
-        
-        // Четвёртый сегмент, включающий версию (4)
+
+        // Четвёртый сегмент, фиксированный под версию 4 (0x4xxx)
         uuid += String((random(0, 0x0fff) | 0x4000), HEX); 
         uuid += "-";
-        
-        // Пятый сегмент с определёнными битами для совместимости с RFC 4122
+
+        // Пятый сегмент, бит 8 и 9 должны быть 10 (0x8xxx)
         uuid += String((random(0, 0x3fff) | 0x8000), HEX);
         uuid += "-";
-        
-        // Генерация последних сегментов с случайными данными
+
+        // Последние три сегмента UUID (случайные)
         uuid += String(random(0, 0xffff), HEX);
         uuid += String(random(0, 0xffff), HEX);
         uuid += String(random(0, 0xffff), HEX);
-        
+
         return uuid;
     }
 };
