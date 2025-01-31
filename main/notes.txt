@@ -1,0 +1,83 @@
+#include "connectToWiFi.h"
+#include <WebServer.h>
+#include <ArduinoJson.h>
+
+#define LED_PIN 2
+bool ledState = false;
+
+WebServer server(80);
+
+// Константы для имени сети и пароля
+const char* WIFI_SSID = "bwmax";
+const char* WIFI_PASSWORD = "KabyLake101#";
+
+void handleRoot() {
+  server.send(200, "text/plain", "ESP32 Web Server is running!");
+}
+
+void handlePostRequest() {
+  Serial.print("Chek");
+  if (server.hasArg("plain")) {  // Извлекаем данные из тела запроса
+    String postData = server.arg("plain");
+    Serial.println("Полученные данные:");
+    Serial.println(postData);  // Выводим данные на серийный порт
+
+    // Создаём StaticJsonDocument для работы с JSON
+    StaticJsonDocument<512> doc;  // Фиксированная память (512 байт)
+
+    // Парсим JSON
+    DeserializationError error = deserializeJson(doc, postData);
+
+    if (error) {
+      Serial.print(F("Ошибка при парсинге JSON: "));
+      Serial.println(error.f_str());
+      server.send(400, "text/plain", "Invalid JSON data");
+      return;
+    }
+
+    // Получаем значение из JSON
+    const char* action  = doc["action"];
+    int value = doc["value"];
+
+    Serial.print("Действие: ");
+    Serial.println(action);
+    Serial.print("Значение: ");
+    Serial.println(value);
+
+    if (strcmp(action, "toggle_led") == 0) {
+      if (value == 1 && ledState == false) {
+        digitalWrite(LED_PIN, HIGH);
+        ledState = true;
+        Serial.println("LED включен");
+        server.send(200, "application/json", "{\"status\":\"LED turned on\"}");
+      } else if (value == 0 && ledState == true) {
+        digitalWrite(LED_PIN, LOW);
+        ledState = false;
+        Serial.println("LED выключен");
+        server.send(200, "application/json", "{\"status\":\"LED turned off\"}");
+      } else {
+        server.send(400, "text/plain", "Invalid value for action");
+      }
+    } else {
+      server.send(400, "text/plain", "Unknown action");
+    }
+  } else {
+    server.send(400, "text/plain", "No data in POST request");
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+  connectToWiFi(WIFI_SSID, WIFI_PASSWORD);
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(LED_PIN, LOW);
+
+  server.on("/", handleRoot);
+  server.on("/action", HTTP_POST, handlePostRequest);
+  server.begin();
+  Serial.println("Веб-сервер запущен.");
+}
+
+void loop() {
+  server.handleClient();
+}
