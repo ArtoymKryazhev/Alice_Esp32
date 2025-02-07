@@ -8,7 +8,7 @@ public:
     // Статическая функция для извлечения значения по точечной нотации
     // path - путь к значению в виде строки, разделённой точками.
     // defaultValue - значение, которое будет возвращено, если путь не существует.
-    static JsonVariant getValueByDotNotation(JsonObject& obj, const String& path, JsonVariant defaultValue = JsonVariant()) {
+    static JsonVariant getValueByDotNotation(const JsonObject& obj, const String& path, JsonVariant defaultValue = JsonVariant()) {
         int startIdx = 0;  // Индекс начала пути
         String key;        // Ключ для текущего сегмента пути
 

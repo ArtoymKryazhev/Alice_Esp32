@@ -6,6 +6,7 @@
 #include "Services/CapabilityService.h"
 #include "Services/RequestService.h"
 #include "Utils/TArray.h"
+#include "Services/UserService.h"  // Подключаем UserService
 
 #include <WebServer.h>
 #include <ArduinoJson.h>
@@ -30,83 +31,12 @@ public:
         }
 
         String uri = server.uri();
-        Serial.println(uri);
-        serializeJson(dataObject, Serial);
-        Serial.println(dataObject.size() > 0);
-
-        if (uri == "/v1.0/user/devices" || uri == "/v1.0/user/devices/query") {
-            std::vector<DeviceModel> devices = DeviceRepository::getAllDevices();
-            JsonDocument doc;
-            ResponseModel response(devices);
-            response.serializeToJson(doc);
-
-            serializeJson(doc, Serial);
-            String responseStr;
-            serializeJson(doc, responseStr);
-            server.send(200, "application/json", responseStr);
-            return;
-        } else if (uri == "/v1.0/user/devices/action" && dataObject.size() > 0) {
-            JsonVariant devicesVariant = TArray::getValueByDotNotation(dataObject, "payload.devices");
-
-            if (!devicesVariant.is<JsonArray>()) {
-                server.send(400, "application/json", "{\"error\": \"Devices are not an array\"}");
-                return;
-            }
-
-            JsonArray devices = devicesVariant.as<JsonArray>();
-            if (devices.size() == 0) {
-                server.send(400, "application/json", "{\"error\": \"No devices found\"}");
-                return;
-            }
-
-            std::vector<DeviceModel> resultDevices;
-
-            for (const JsonObject& deviceData : devices) {
-                if (deviceData["id"].is<const char*>()) {
-                    String id = deviceData["id"].as<String>();
-                    std::string stdId = id.c_str();
-
-                    std::optional<DeviceModel> device = DeviceRepository::getDeviceById(stdId);
-
-                    if (device) {
-                        Serial.println("Устройство найдено: " + id);
-
-                        JsonDocument JsonDocumentCapabilities;
-                        JsonArray JsonArrayCapabilities = JsonDocumentCapabilities.to<JsonArray>();
-
-                        CapabilityService::fromBatch(deviceData["capabilities"], JsonArrayCapabilities);
-
-                        for (const JsonObject& capability : JsonArrayCapabilities) {
-                            CapabilityModel* deviceCapability = device->getCapabilityByType(capability["type"].as<String>());
-                            if (deviceCapability != nullptr) {
-                                ActionResultModel actionResult(ActionResultStatusEnum::DONE);
-                                CapabilityService::setActionStatus(*deviceCapability, "on", actionResult);
-
-                                resultDevices.push_back(*device);
-                            }
-                        }
-                    } else {
-                        Serial.println("Устройство не найдено: " + id);
-                    }
-                } else {
-                    Serial.println("ID устройства отсутствует или некорректен");
-                }
-            }
-
-            ResponseModel responseModel(resultDevices);
-            JsonDocument ResultDeviceJsonDocument;
-            responseModel.serializeToJson(ResultDeviceJsonDocument);
-
-            serializeJson(ResultDeviceJsonDocument, Serial);
-            String responseString;
-            serializeJson(ResultDeviceJsonDocument, responseString);
-            server.send(200, "application/json", responseString);
-            return;
-        } else {
-          server.send(404, "text/plain", "Not Found");
-        }
-
         
+        // Отправляем запрос на обработку в UserService
+        String responseStr = UserService::processRequest(uri, dataObject);
+
+        // Отправляем ответ
+        server.send(200, "application/json", responseStr);
     }
 };
 
