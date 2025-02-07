@@ -4,6 +4,7 @@
 #include "Models/ResponseModel.h"
 #include "Repository/DeviceRepository.h"
 #include "Services/CapabilityService.h"
+#include "Services/RequestService.h"
 #include "Utils/TArray.h"
 
 #include <WebServer.h>
@@ -20,19 +21,18 @@ public:
         JsonObject dataObject;
 
         if (server.method() == HTTP_POST) {
-            String body = server.arg("plain");
-
-            DeserializationError error = deserializeJson(dataDoc, body);
-            if (error) {
+            if (!RequestService::parseJsonRequest(server, dataDoc)) {
                 server.send(400, "application/json", "{\"error\": \"Invalid JSON\"}");
                 return;
             }
 
-            dataObject = dataDoc.as<JsonObject>();
-            serializeJson(dataObject, Serial);
+            dataObject = dataDoc.as<JsonObject>();  
         }
 
         String uri = server.uri();
+        Serial.println(uri);
+        serializeJson(dataObject, Serial);
+        Serial.println(dataObject.size() > 0);
 
         if (uri == "/v1.0/user/devices" || uri == "/v1.0/user/devices/query") {
             std::vector<DeviceModel> devices = DeviceRepository::getAllDevices();
@@ -45,9 +45,7 @@ public:
             serializeJson(doc, responseStr);
             server.send(200, "application/json", responseStr);
             return;
-        }
-
-        if (uri == "/v1.0/user/devices/action" && dataObject.size() > 0) {
+        } else if (uri == "/v1.0/user/devices/action" && dataObject.size() > 0) {
             JsonVariant devicesVariant = TArray::getValueByDotNotation(dataObject, "payload.devices");
 
             if (!devicesVariant.is<JsonArray>()) {
@@ -104,9 +102,11 @@ public:
             serializeJson(ResultDeviceJsonDocument, responseString);
             server.send(200, "application/json", responseString);
             return;
+        } else {
+          server.send(404, "text/plain", "Not Found");
         }
 
-        server.send(404, "text/plain", "Not Found");
+        
     }
 };
 
