@@ -26,6 +26,30 @@ public:
             "light-diod-2", "Светодиод 2", DeviceTypeEnum::LIGHT, capabilities, deviceInfo
         ));
 
+        devices.push_back(DeviceModel(
+            "light-diod-3", "Светодиод 3", DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        ));
+
+        devices.push_back(DeviceModel(
+            "light-diod-4", "Светодиод 4", DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        ));
+
+        devices.push_back(DeviceModel(
+            "light-diod-5", "Светодиод 5", DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        ));
+
+        devices.push_back(DeviceModel(
+            "light-diod-6", "Светодиод 6", DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        ));
+
+        devices.push_back(DeviceModel(
+            "light-diod-7", "Светодиод 7", DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        ));
+
+        devices.push_back(DeviceModel(
+            "light-diod-8", "Светодиод 8", DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        ));
+
         return devices;
     }
 

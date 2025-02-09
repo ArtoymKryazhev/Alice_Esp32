@@ -6,8 +6,8 @@
 #include <vector>
 #include <optional>
 #include <string>
-#include "C:/Dev/Edu/Arduino/Alice_Esp32/main/Enums/CapabilityTypeEnum.h"
-#include "C:/Dev/Edu/Arduino/Alice_Esp32/main/Enums/DeviceTypeEnum.h"
+#include "Enums/CapabilityTypeEnum.h"
+#include "Enums/DeviceTypeEnum.h"
 #include "DeviceInfoModel.h"
 #include "CapabilityModel.h"
 

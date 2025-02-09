@@ -3,7 +3,6 @@
 
 #include "Models/ResponseModel.h"
 #include "Repository/DeviceRepository.h"
-#include "Services/CapabilityService.h"
 #include "Utils/TArray.h"
 #include "Models/DeviceModel.h"
 #include "Models/ActionResultModel.h"

@@ -1,5 +1,6 @@
 #include "Controllers/UserController.h"
 #include "Services/NetworkService.h"
+#include "Models/PinModel.h"
 
 #include <WebServer.h>
 #include <ArduinoJson.h>
