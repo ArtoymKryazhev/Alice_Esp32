@@ -19,7 +19,7 @@ public:
         
         // Обработка маршрута /v1.0/user/devices и /v1.0/user/devices/query
         if (uri == "/v1.0/user/devices" || uri == "/v1.0/user/devices/query") {
-            std::vector<DeviceModel> devices = DeviceRepository::getAllDevices();
+            std::vector<DeviceModel> devices = DeviceRepository::getAllDevice();
             ResponseModel response(devices);
             response.serializeToJson(doc);
             serializeJson(doc, responseStr);

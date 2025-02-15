@@ -6,28 +6,30 @@
 #include <vector>
 #include <optional>
 #include <string>
-#include "Enums/CapabilityTypeEnum.h"
+
+#include "Enums/CapabilityTypeEnum.h"   
 #include "Enums/DeviceTypeEnum.h"
+
 #include "DeviceInfoModel.h"
 #include "CapabilityModel.h"
+#include "HardDeviceModel.h"
 
 class DeviceModel {
 
 private:
     std::string id;
     std::string name;
+    HardDeviceModel hardDevice;
     std::vector<CapabilityModel> capabilities;
     DeviceTypeEnum type;
     std::optional<DeviceInfoModel> deviceInfo;
-    std::optional<std::string> description; // Сделаем описание опциональным
-
+    
 public:
     // Конструктор с обязательными параметрами и необязательными с дефолтными значениями
-    DeviceModel(const std::string& id, const std::string& name, DeviceTypeEnum type,
-                const std::vector<CapabilityModel>& capabilities, 
-                std::optional<DeviceInfoModel> deviceInfo = std::nullopt, 
-                std::optional<std::string> description = std::nullopt)
-        : id(id), name(name), capabilities(capabilities), type(type), deviceInfo(deviceInfo), description(description) {}
+    DeviceModel(const std::string& id, const std::string& name, HardDeviceModel hardDevice,
+                DeviceTypeEnum type, const std::vector<CapabilityModel>& capabilities, 
+                std::optional<DeviceInfoModel> deviceInfo = std::nullopt)
+        : id(id), name(name), hardDevice(hardDevice), capabilities(capabilities), type(type), deviceInfo(deviceInfo) {}
 
     // Получить Capability по типу
 
@@ -53,11 +55,6 @@ public:
             JsonDocument capabilityJson;  // создаём объект для каждого элемента
             capability.serializeToJson(capabilityJson);  // сериализуем объект
             capabilitiesArray.add(capabilityJson);  // добавляем объект в массив
-        }
-
-        // Добавляем описание, если оно существует
-        if (description.has_value()) {
-            doc["description"] = description.value();
         }
 
         // Сериализация deviceInfo, если оно существует
