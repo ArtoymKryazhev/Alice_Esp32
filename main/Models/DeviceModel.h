@@ -7,6 +7,7 @@
 #include <optional>
 #include <string>
 
+
 #include "Enums/CapabilityTypeEnum.h"   
 #include "Enums/DeviceTypeEnum.h"
 
@@ -19,14 +20,14 @@ class DeviceModel {
 private:
     std::string id;
     std::string name;
-    HardDeviceModel hardDevice;
+    HardDeviceModel* hardDevice;
     std::vector<CapabilityModel> capabilities;
     DeviceTypeEnum type;
     std::optional<DeviceInfoModel> deviceInfo;
     
 public:
     // Конструктор с обязательными параметрами и необязательными с дефолтными значениями
-    DeviceModel(const std::string& id, const std::string& name, HardDeviceModel hardDevice,
+    DeviceModel(const std::string& id, const std::string& name, HardDeviceModel* hardDevice,
                 DeviceTypeEnum type, const std::vector<CapabilityModel>& capabilities, 
                 std::optional<DeviceInfoModel> deviceInfo = std::nullopt)
         : id(id), name(name), hardDevice(hardDevice), capabilities(capabilities), type(type), deviceInfo(deviceInfo) {}
@@ -66,6 +67,7 @@ public:
     }
 
     const std::string& getId() const {return id;}
+    HardDeviceModel* getHardDevice() const {return hardDevice;}
 };
 
 #endif // DEVICE_MODEL_H

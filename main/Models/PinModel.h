@@ -19,7 +19,7 @@ public:
     void setPinNumber(int number) { pinNumber = number; }
 
     std::optional<PinModeEnum> getPinMode() const { return mode; }
-    void setModeEnum(std::optional<PinModeEnum> m) { mode = m; }
+    void setPinMode(std::optional<PinModeEnum> m) { mode = m; }
 
 
         // Методы для работы с пином (заглушки)
