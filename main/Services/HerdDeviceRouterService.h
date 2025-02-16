@@ -17,6 +17,8 @@ public:
         if (RelayDeviceModel* relayDevice = static_cast<RelayDeviceModel*>(hardDevice)) {
             //RelayDeviceService::processRelayDevice(*relayDevice, state);
             
+        } else if (LedDeviceModel* ledDevice = static_cast<LedDeviceModel*>(hardDevice)) {
+
         }
         // Можно добавить другие типы устройств по аналогии
     }

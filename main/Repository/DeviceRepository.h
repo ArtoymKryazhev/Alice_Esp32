@@ -2,6 +2,7 @@
 #define DEVICE_REPOSITORY_H
 
 #include "Models/RelayDeviceModel.h"
+#include "Models/LedDeviceModel.h"
 #include "Models/DeviceModel.h"
 #include <ArduinoJson.h>
 #include <vector>
@@ -20,37 +21,44 @@ private:
 
         DeviceInfoModel deviceInfo("manufacturer", "model", "hw_version", "sw_version");
 
-        // Создаём устройства, используя std::make_unique для управления памятью
+        // relay устройства 
         devices.push_back(DeviceModel(
-            "light-diod-1", "Светодиод 1", new RelayDeviceModel("relay_1", 27, 25, 26, 0), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+            "relay-light-diod-1", "Реле Светодиод 1", new RelayDeviceModel("relay_1", 27, 25, 26, 0), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
         ));
 
         devices.push_back(DeviceModel(
-            "light-diod-2", "Светодиод 2", new RelayDeviceModel("relay_1", 27, 25, 26, 1), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+            "relay-light-diod-2", "Реле Светодиод 2", new RelayDeviceModel("relay_1", 27, 25, 26, 1), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
         ));
 
         devices.push_back(DeviceModel(
-            "light-diod-3", "Светодиод 3", new RelayDeviceModel("relay_1", 27, 25, 26, 2), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+            "relay-light-diod-3", "Реле Светодиод 3", new RelayDeviceModel("relay_1", 27, 25, 26, 2), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
         ));
 
         devices.push_back(DeviceModel(
-            "light-diod-4", "Светодиод 4", new RelayDeviceModel("relay_1", 27, 25, 26, 3), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+            "relay-light-diod-4", "Реле Светодиод 4", new RelayDeviceModel("relay_1", 27, 25, 26, 3), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
         ));
 
         devices.push_back(DeviceModel(
-            "light-diod-5", "Светодиод 5", new RelayDeviceModel("relay_1", 27, 25, 26, 4), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+            "relay-light-diod-5", "Реле Светодиод 5", new RelayDeviceModel("relay_1", 27, 25, 26, 4), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
         ));
 
         devices.push_back(DeviceModel(
-            "light-diod-6", "Светодиод 6", new RelayDeviceModel("relay_1", 27, 25, 26, 5), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+            "relay-light-diod-6", "Реле Светодиод 6", new RelayDeviceModel("relay_1", 27, 25, 26, 5), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
         ));
 
         devices.push_back(DeviceModel(
-            "light-diod-7", "Светодиод 7", new RelayDeviceModel("relay_1", 27, 25, 26, 6), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+            "relay-light-diod-7", "Реле Светодиод 7", new RelayDeviceModel("relay_1", 27, 25, 26, 6), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
         ));
 
         devices.push_back(DeviceModel(
-            "light-diod-8", "Светодиод 8", new RelayDeviceModel("relay_1", 27, 25, 26, 7), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+            "relay-light-diod-8", "Реле Светодиод 8", new RelayDeviceModel("relay_1", 27, 25, 26, 7), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        ));
+
+
+        // led устройства 
+
+        devices.push_back(DeviceModel(
+            "light-diod-1", "Светодиод 1", new LedDeviceModel("led_1", 5), DeviceTypeEnum::LIGHT, capabilities, deviceInfo
         ));
     }
 
