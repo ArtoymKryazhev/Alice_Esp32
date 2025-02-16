@@ -1,39 +1,29 @@
 #ifndef PIN_ENUMS_H
 #define PIN_ENUMS_H
 
-// Режим работы пина
-enum class PinModeEnum {
-    DIGITAL_INPUT,          // Цифровой вход
-    DIGITAL_OUTPUT,         // Цифровой выход
+#include <stdint.h>
+
+// Режим работы пина. Задаем базовый тип uint8_t для корректного преобразования
+enum class PinModeEnum : uint8_t {
+DIGITAL_INPUT = 0, // Цифровой вход (аналог макроса INPUT)
+DIGITAL_OUTPUT = 1 // Цифровой выход (аналог макроса OUTPUT)
 };
 
-// Добавляем метод для получения значения режима пина для Arduino
-inline char* getArduinoPinMode(PinModeEnum mode) {
-    switch (mode) {
-        case PinModeEnum::DIGITAL_INPUT: return "INPUT";             // Цифровой вход
-        case PinModeEnum::DIGITAL_OUTPUT: return "OUTPUT";           // Цифровой выход
-        default: return "INPUT";                                     // По умолчанию цифровой вход
-    }
+// Функция для получения значения режима пина для Arduino.
+// static_cast используется для явного преобразования типа enum в uint8_t.
+inline constexpr uint8_t getArduinoPinMode(PinModeEnum mode) {
+return static_cast<uint8_t>(mode);
 }
 
-
-// Состояние пина
-enum class PinStateEnum {
-    DIGITAL_LOW,  // LOW
-    DIGITAL_HIGH, // HIGH
+// Состояние пина. Тоже задаем базовый тип uint8_t
+enum class PinStateEnum : uint8_t {
+DIGITAL_LOW = 0, // Низкий уровень (аналог LOW)
+DIGITAL_HIGH = 1 // Высокий уровень (аналог HIGH)
 };
 
-
-// Добавляем метод для получения значения режима пина для Arduino
-inline char* getArduinoPinState(PinStateEnum state) {
-    switch (state) {
-        case PinStateEnum::DIGITAL_LOW: return "LOW";             // Цифровой вход
-        case PinStateEnum::DIGITAL_HIGH: return "HIGH";           // Цифровой выход
-        default: return "LOW";                                     // По умолчанию цифровой вход
-    }
+// Функция для получения значения состояния пина для Arduino.
+inline constexpr uint8_t getArduinoPinState(PinStateEnum state) {
+return static_cast<uint8_t>(state);
 }
-
-
-
 
 #endif // PIN_ENUMS_H

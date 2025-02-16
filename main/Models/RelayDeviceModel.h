@@ -18,7 +18,7 @@ private:
 
 public:
     // Конструктор
-    RelayDeviceModel(const String& id, PinModel serPin, PinModel rclkPin, int srclkPin, int relayIndex)
+    RelayDeviceModel(const String& id, PinModel serPin, PinModel rclkPin, PinModel srclkPin, int relayIndex)
         : id(id), serPin(serPin), rclkPin(rclkPin), srclkPin(srclkPin) {
         if (relayIndex < 0 || relayIndex >= totalRelays) {
             relayIndex = 0; // Если индекс неверный, ставим в 0 по умолчанию
