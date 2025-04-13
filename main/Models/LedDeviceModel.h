@@ -20,6 +20,11 @@ public:
     // Геттер для получения номера пина
     int getPinNumber() const { return pin.getPinNumber(); }
 
+    std::vector<const BasePinModel*> getAllPin() const override {
+        return { &pin }; // можно добавлять и другие пины
+    }
+
+
     // Сеттер для изменения номера пина
     void setPinNumber(int newPinNumber) { pin.setPinNumber(newPinNumber); }
     

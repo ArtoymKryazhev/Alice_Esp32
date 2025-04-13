@@ -43,6 +43,9 @@ public:
         return nullptr;
     }
 
+    DeviceTypeEnum getDeviceType() const { return type; }
+
+
     // Сериализация в JSON
     void serializeToJson(JsonDocument& doc) const {
         doc["id"] = id;

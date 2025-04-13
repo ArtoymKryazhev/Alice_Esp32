@@ -1,26 +1,28 @@
-#include "libraries/ArduinoJson/src/ArduinoJson/Json/JsonSerializer.hpp"
-#include "libraries/ArduinoJson/src/ArduinoJson/Document/JsonDocument.hpp"
 #ifndef HERD_DEVICE_ROUTER_SERVICE_H
 #define HERD_DEVICE_ROUTER_SERVICE_H
 
 #include "Models/DeviceModel.h"
+#include "Models/LedDeviceModel.h"
+#include "Models/RelayDeviceModel.h"
 //#include "Services/RelayDeviceService.h"
 
 class HerdDeviceRouterService {
 public:
     // Метод для обработки устройства и его состояния
     static void processDevice(DeviceModel& device, const JsonArray& capabilities) {
-        // Получаем физическое устройство
         HardDeviceModel* hardDevice = device.getHardDevice();
 
-        // Определяем тип устройства
-        if (RelayDeviceModel* relayDevice = static_cast<RelayDeviceModel*>(hardDevice)) {
-            //RelayDeviceService::processRelayDevice(*relayDevice, state);
-            Serial.println("relayDevice");
-        } else if (LedDeviceModel* ledDevice = static_cast<LedDeviceModel*>(hardDevice)) {
-            Serial.println("ledDevice");
+        switch (device.getDeviceType()) {
+            case DeviceTypeEnum::LIGHT: {
+                LedDeviceModel* ledDevice = static_cast<LedDeviceModel*>(hardDevice);
+                Serial.println("ledDevice");
+                break;
+            }
+            // Добавь другие типы устройств по мере надобности
+            default:
+                Serial.println("Unknown device type");
+                break;
         }
-        // Можно добавить другие типы устройств по аналогии
     }
 };
 

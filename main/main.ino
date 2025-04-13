@@ -1,10 +1,12 @@
 #include "Controllers/UserController.h"
 #include "Services/NetworkService.h"
+#include "Services/PinService.h"
 
 #include <WebServer.h>
 #include <ArduinoJson.h>
 #include <vector>
 #include <Arduino.h>
+
 
 WebServer server(80);
 
@@ -22,6 +24,8 @@ void setup() {
 
     server.begin();
     Serial.println("Веб-сервер запущен.");
+
+    PinService::initializeAllPins();
 }
 
 void loop() {
