@@ -77,7 +77,7 @@ private:
 
         devices.push_back(DeviceModel(
             "light-diod-1", "Светодиод 1", new LedDeviceModel("led_1", 
-            PinOnOffModel(5, PinModeEnum::DIGITAL_OUTPUT)), 
+            PinOnOffModel(13, PinModeEnum::DIGITAL_OUTPUT)), 
             DeviceTypeEnum::LIGHT, capabilities, deviceInfo
         ));
     }

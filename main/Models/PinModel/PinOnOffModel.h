@@ -13,6 +13,7 @@ public:
         : BasePinModel(pinNumber, pinMode) {}
 
     // Реализация методов интерфейса
+
     void turnOn() override {
         PinService::setPinState(*this, PinStateEnum::DIGITAL_HIGH);
     }

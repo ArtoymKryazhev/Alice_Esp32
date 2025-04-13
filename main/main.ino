@@ -1,5 +1,6 @@
 #include "Controllers/UserController.h"
 #include "Services/NetworkService.h"
+#include "Repository/DeviceRepository.h"
 #include "Services/PinService.h"
 
 #include <WebServer.h>
@@ -25,7 +26,9 @@ void setup() {
     server.begin();
     Serial.println("Веб-сервер запущен.");
 
-    PinService::initializeAllPins();
+    std::vector<DeviceModel>& devices = DeviceRepository::getAllDevice();
+
+    PinService::initializeAllPins(devices);
 }
 
 void loop() {
