@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "HardDeviceModel.h"
-#include "PinOnOffModel.h"
+#include "PinModel/PinOnOffModel.h"
 #include "Enums/PinTypeEnum.h"
 
 

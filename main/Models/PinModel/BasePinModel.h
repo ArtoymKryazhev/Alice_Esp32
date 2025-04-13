@@ -1,7 +1,7 @@
 #ifndef BASE_PIN_MODEL_H
 #define BASE_PIN_MODEL_H
 
-#include "Enums/PinTypeEnums.h"
+#include "Enums/PinTypeEnum.h"
 
 class BasePinModel {
 protected:

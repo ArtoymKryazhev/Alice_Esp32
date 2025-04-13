@@ -16,9 +16,9 @@ public:
         // Определяем тип устройства
         if (RelayDeviceModel* relayDevice = static_cast<RelayDeviceModel*>(hardDevice)) {
             //RelayDeviceService::processRelayDevice(*relayDevice, state);
-            
+            Serial.println("relayDevice");
         } else if (LedDeviceModel* ledDevice = static_cast<LedDeviceModel*>(hardDevice)) {
-
+            Serial.println("ledDevice");
         }
         // Можно добавить другие типы устройств по аналогии
     }

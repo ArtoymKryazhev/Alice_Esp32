@@ -2,8 +2,8 @@
 #define PIN_SERVICE_H
 
 #include <Arduino.h>
-#include "Models/PinModel.h"
-#include "Enums/PinTypeEnums.h"
+#include "Models/PinModel/BasePinModel.h"
+#include "Enums/PinTypeEnum.h"
 
 class PinService {
 public:

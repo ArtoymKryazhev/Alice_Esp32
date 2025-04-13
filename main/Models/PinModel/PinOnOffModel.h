@@ -4,7 +4,7 @@
 #include "BasePinModel.h"
 #include "Interface/PinOnOffInterface.h"
 #include "Services/PinService.h"
-#include "Enums/PinTypeEnums.h"
+#include "Enums/PinTypeEnum.h"
 
 class PinOnOffModel : public BasePinModel, public PinOnOffInterface {
 public:
@@ -14,11 +14,11 @@ public:
 
     // Реализация методов интерфейса
     void turnOn() override {
-        PinService::setPinState(*this, PinStateEnum::HIGH);
+        PinService::setPinState(*this, PinStateEnum::DIGITAL_HIGH);
     }
 
     void turnOff() override {
-        PinService::setPinState(*this, PinStateEnum::LOW);
+        PinService::setPinState(*this, PinStateEnum::DIGITAL_LOW);
     }
 };
 

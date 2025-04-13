@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "HardDeviceModel.h"
-#include "PinOnOffModel.h"
+#include "PinModel/PinOnOffModel.h"
 
 class LedDeviceModel : public HardDeviceModel {
 private:
@@ -12,8 +12,8 @@ private:
 
 public:
     // Конструктор
-    LedDeviceModel(const String& id, int pinNumber)
-        : id(id), pin(pinNumber) {}
+    LedDeviceModel(const String& id, PinOnOffModel pin)
+        : id(id), pin(pin) {}
 
     const String& getId() const { return id; }
 

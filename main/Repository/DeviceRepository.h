@@ -4,6 +4,7 @@
 #include "Models/RelayDeviceModel.h"
 #include "Models/LedDeviceModel.h"
 #include "Models/DeviceModel.h"
+#include "Models/PinModel/PinOnOffModel.h"
 #include "Enums/PinTypeEnum.h"
 #include <ArduinoJson.h>
 #include <vector>
