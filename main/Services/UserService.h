@@ -53,15 +53,12 @@ public:
                         for (const JsonObject& capability : JsonArrayCapabilities) {
                             CapabilityModel* deviceCapability = device->getCapabilityByType(capability["type"].as<String>());
                             if (deviceCapability != nullptr) {
-                              //if (deviceData["capabilities"].is<JsonArray>()){
-                                //HerdDeviceRouterService::processDevice(*device, deviceData["capabilities"]);
+                              if (deviceData["capabilities"].is<JsonArray>()){
+                                HerdDeviceRouterService::processDevice(*device, deviceData["capabilities"]);
                                 ActionResultModel actionResult(ActionResultStatusEnum::DONE);
                                 CapabilityService::setActionStatus(*deviceCapability, "on", actionResult);
                                 resultDevices.push_back(*device);
-                                JsonDocument foo;
-                                device.value().serializeToJson(foo);
-                                serializeJson(foo, Serial);
-                              //}
+                              }
                             }
                         }
                     }
@@ -71,7 +68,6 @@ public:
             ResponseModel responseModel(resultDevices);
             responseModel.serializeToJson(doc);
             serializeJson(doc, responseStr);
-            serializeJson(doc, Serial);
         } 
         // Обработка маршрута по умолчанию (если ничего не найдено)
         else {

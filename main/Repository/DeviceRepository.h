@@ -23,60 +23,60 @@ private:
         DeviceInfoModel deviceInfo("manufacturer", "model", "hw_version", "sw_version");
 
         // relay устройства 
-        devices.push_back(DeviceModel(
-            "relay-light-diod-1", "Реле Светодиод 1", new RelayDeviceModel("relay_1", 
-            PinModel(27, PinModeEnum::DIGITAL_OUTPUT), PinModel(25, PinModeEnum::DIGITAL_OUTPUT), PinModel(26, PinModeEnum::DIGITAL_OUTPUT), 0), 
-            DeviceTypeEnum::LIGHT, capabilities, deviceInfo
-        ));
+        // devices.push_back(DeviceModel(
+        //     "relay-light-diod-1", "Реле Светодиод 1", new RelayDeviceModel("relay_1", 
+        //     PinOnOffModel(27, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(25, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(26, PinModeEnum::DIGITAL_OUTPUT), 0), 
+        //     DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        // ));
 
-        devices.push_back(DeviceModel(
-            "relay-light-diod-2", "Реле Светодиод 2", new RelayDeviceModel("relay_1", 
-            PinModel(27, PinModeEnum::DIGITAL_OUTPUT), PinModel(25, PinModeEnum::DIGITAL_OUTPUT), PinModel(26, PinModeEnum::DIGITAL_OUTPUT), 1), 
-            DeviceTypeEnum::LIGHT, capabilities, deviceInfo
-        ));
+        // devices.push_back(DeviceModel(
+        //     "relay-light-diod-2", "Реле Светодиод 2", new RelayDeviceModel("relay_1", 
+        //     PinOnOffModel(27, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(25, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(26, PinModeEnum::DIGITAL_OUTPUT), 1), 
+        //     DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        // ));
 
-        devices.push_back(DeviceModel(
-            "relay-light-diod-3", "Реле Светодиод 3", new RelayDeviceModel("relay_1", 
-            PinModel(27, PinModeEnum::DIGITAL_OUTPUT), PinModel(25, PinModeEnum::DIGITAL_OUTPUT), PinModel(26, PinModeEnum::DIGITAL_OUTPUT), 2), 
-            DeviceTypeEnum::LIGHT, capabilities, deviceInfo
-        ));
+        // devices.push_back(DeviceModel(
+        //     "relay-light-diod-3", "Реле Светодиод 3", new RelayDeviceModel("relay_1", 
+        //     PinOnOffModel(27, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(25, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(26, PinModeEnum::DIGITAL_OUTPUT), 2), 
+        //     DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        // ));
 
-        devices.push_back(DeviceModel(
-            "relay-light-diod-4", "Реле Светодиод 4", new RelayDeviceModel("relay_1", 
-            PinModel(27, PinModeEnum::DIGITAL_OUTPUT), PinModel(25, PinModeEnum::DIGITAL_OUTPUT), PinModel(26, PinModeEnum::DIGITAL_OUTPUT), 3), 
-            DeviceTypeEnum::LIGHT, capabilities, deviceInfo
-        ));
+        // devices.push_back(DeviceModel(
+        //     "relay-light-diod-4", "Реле Светодиод 4", new RelayDeviceModel("relay_1", 
+        //     PinOnOffModel(27, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(25, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(26, PinModeEnum::DIGITAL_OUTPUT), 3), 
+        //     DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        // ));
 
-        devices.push_back(DeviceModel(
-            "relay-light-diod-5", "Реле Светодиод 5", new RelayDeviceModel("relay_1", 
-            PinModel(27, PinModeEnum::DIGITAL_OUTPUT), PinModel(25, PinModeEnum::DIGITAL_OUTPUT), PinModel(26, PinModeEnum::DIGITAL_OUTPUT), 4), 
-            DeviceTypeEnum::LIGHT, capabilities, deviceInfo
-        ));
+        // devices.push_back(DeviceModel(
+        //     "relay-light-diod-5", "Реле Светодиод 5", new RelayDeviceModel("relay_1", 
+        //     PinOnOffModel(27, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(25, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(26, PinModeEnum::DIGITAL_OUTPUT), 4), 
+        //     DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        // ));
 
-        devices.push_back(DeviceModel(
-            "relay-light-diod-6", "Реле Светодиод 6", new RelayDeviceModel("relay_1", 
-            PinModel(27, PinModeEnum::DIGITAL_OUTPUT), PinModel(25, PinModeEnum::DIGITAL_OUTPUT), PinModel(26, PinModeEnum::DIGITAL_OUTPUT), 5), 
-            DeviceTypeEnum::LIGHT, capabilities, deviceInfo
-        ));
+        // devices.push_back(DeviceModel(
+        //     "relay-light-diod-6", "Реле Светодиод 6", new RelayDeviceModel("relay_1", 
+        //     PinOnOffModel(27, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(25, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(26, PinModeEnum::DIGITAL_OUTPUT), 5), 
+        //     DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        // ));
 
-        devices.push_back(DeviceModel(
-            "relay-light-diod-7", "Реле Светодиод 7", new RelayDeviceModel("relay_1", 
-            PinModel(27, PinModeEnum::DIGITAL_OUTPUT), PinModel(25, PinModeEnum::DIGITAL_OUTPUT), PinModel(26, PinModeEnum::DIGITAL_OUTPUT), 6), 
-            DeviceTypeEnum::LIGHT, capabilities, deviceInfo
-        ));
+        // devices.push_back(DeviceModel(
+        //     "relay-light-diod-7", "Реле Светодиод 7", new RelayDeviceModel("relay_1", 
+        //     PinOnOffModel(27, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(25, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(26, PinModeEnum::DIGITAL_OUTPUT), 6), 
+        //     DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        // ));
 
-        devices.push_back(DeviceModel(
-            "relay-light-diod-8", "Реле Светодиод 8", new RelayDeviceModel("relay_1", 
-            PinModel(27, PinModeEnum::DIGITAL_OUTPUT), PinModel(25, PinModeEnum::DIGITAL_OUTPUT), PinModel(26, PinModeEnum::DIGITAL_OUTPUT), 7), 
-            DeviceTypeEnum::LIGHT, capabilities, deviceInfo
-        ));
+        // devices.push_back(DeviceModel(
+        //     "relay-light-diod-8", "Реле Светодиод 8", new RelayDeviceModel("relay_1", 
+        //     PinOnOffModel(27, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(25, PinModeEnum::DIGITAL_OUTPUT), PinOnOffModel(26, PinModeEnum::DIGITAL_OUTPUT), 7), 
+        //     DeviceTypeEnum::LIGHT, capabilities, deviceInfo
+        // ));
 
 
         // led устройства 
 
         devices.push_back(DeviceModel(
             "light-diod-1", "Светодиод 1", new LedDeviceModel("led_1", 
-            PinModel(5, PinModeEnum::DIGITAL_OUTPUT)), 
+            PinOnOffModel(5, PinModeEnum::DIGITAL_OUTPUT)), 
             DeviceTypeEnum::LIGHT, capabilities, deviceInfo
         ));
     }

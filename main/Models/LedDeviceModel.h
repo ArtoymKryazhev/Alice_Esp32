@@ -3,21 +3,35 @@
 
 #include <Arduino.h>
 #include "HardDeviceModel.h"
-#include "PinModel.h"
+#include "PinOnOffModel.h"
 
 class LedDeviceModel : public HardDeviceModel {
 private:
     String id;       // Уникальный ID устройства
-    PinModel powerPin;  // Пин для подачи питания
+    PinOnOffModel pin;  // Пин для подачи питания
 
 public:
     // Конструктор
-    LedDeviceModel(const String& id, PinModel powerPin)
-        : id(id), powerPin(powerPin) {}
+    LedDeviceModel(const String& id, int pinNumber)
+        : id(id), pin(pinNumber) {}
 
-    // Геттеры
     const String& getId() const { return id; }
-    const PinModel& getPowerPin() const { return powerPin; }
+
+    // Геттер для получения номера пина
+    int getPinNumber() const { return pin.getPinNumber(); }
+
+    // Сеттер для изменения номера пина
+    void setPinNumber(int newPinNumber) { pin.setPinNumber(newPinNumber); }
+    
+    // Метод включения LED
+    void turnOn() {
+        pin.turnOn(); // Включаем пин
+    }
+
+    // Метод выключения LED
+    void turnOff() {
+        pin.turnOff(); // Выключаем пин
+    }
 };
 
 #endif // LED_DEVICE_MODEL_H
