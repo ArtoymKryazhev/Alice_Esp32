@@ -54,9 +54,7 @@ public:
                             CapabilityModel* deviceCapability = device->getCapabilityByType(capability["type"].as<String>());
                             if (deviceCapability != nullptr) {
                               if (deviceData["capabilities"].is<JsonArray>()){
-                                HerdDeviceRouterService::processDevice(*device, deviceData["capabilities"]);
-                                ActionResultModel actionResult(ActionResultStatusEnum::DONE);
-                                CapabilityService::setActionStatus(*deviceCapability, "on", actionResult);
+                                CapabilityService::setActionStatus(*deviceCapability, "on", HerdDeviceRouterService::processDevice(*device, deviceData["capabilities"]));
                                 resultDevices.push_back(*device);
                               }
                             }

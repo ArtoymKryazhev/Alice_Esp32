@@ -5,25 +5,29 @@
 #include "Models/DeviceModel.h"
 #include "Models/LedDeviceModel.h"
 #include "Models/RelayDeviceModel.h"
+#include "Models/ActionResultModel.h"
 #include "Services/LedDeviceService.h"
 //#include "Services/RelayDeviceService.h"
 
 class HerdDeviceRouterService {
 public:
     // Метод для обработки устройства и его состояния
-    static void processDevice(DeviceModel& device, const JsonArray& capabilities) {
+    static ActionResultModel  processDevice(DeviceModel& device, const JsonArray& capabilities) {
         HardDeviceModel* hardDevice = device.getHardDevice();
 
         switch (device.getDeviceType()) {
-            case DeviceTypeEnum::LIGHT: {
-                LedDeviceModel* ledDevice = static_cast<LedDeviceModel*>(hardDevice);
-                LedDeviceService::handle(ledDevice, capabilities);
-                break;
-            }
-            // Добавь другие типы устройств по мере надобности
-            default:
-                Serial.println("Unknown device type");
-                break;
+        case DeviceTypeEnum::LIGHT: {
+            LedDeviceModel* ledDevice = static_cast<LedDeviceModel*>(hardDevice);
+            return LedDeviceService::handle(ledDevice, capabilities);
+        }
+        // Добавь другие типы устройств по мере надобности
+        default:
+
+            return ActionResultModel(
+                ActionResultStatusEnum::ERROR,
+                ErrorCodeEnum::INVALID_ACTION,
+                "Неизвестный тип устройства"
+            );
         }
     }
 };
