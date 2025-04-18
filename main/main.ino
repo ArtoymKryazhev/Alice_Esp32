@@ -20,15 +20,12 @@ void setup() {
     NetworkService::connect(WIFI_SSID, WIFI_PASSWORD);
 
     server.on("/v1.0/user/devices", HTTP_GET, UserController::handleDevicesRequest);
-    server.on("/v1.0/user/devices/query", HTTP_GET, UserController::handleDevicesRequest);
+    server.on("/v1.0/user/devices/query", HTTP_POST, UserController::handleDevicesRequest);
     server.on("/v1.0/user/devices/action", HTTP_POST, UserController::handleDevicesRequest);
-
     server.begin();
     Serial.println("Веб-сервер запущен.");
 
-    std::vector<DeviceModel>& devices = DeviceRepository::getAllDevice();
-
-    PinService::initializeAllPins(devices);
+    PinService::initializeAllPins(DeviceRepository::getAllDevice());
 }
 
 void loop() {

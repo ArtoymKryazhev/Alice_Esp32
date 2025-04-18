@@ -55,6 +55,10 @@ public:
             "Не найдена поддерживаемая способность 'on_off'"
         );
     }
+
+    static ActionResultModel stateDevice(LedDeviceModel* ledDevice, const CapabilityTypeEnum type) {
+        if 
+    }
 };
 
 #endif // LED_DEVICE_SERVICE_H

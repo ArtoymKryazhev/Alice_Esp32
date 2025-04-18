@@ -1,3 +1,5 @@
+#include "HardwareSerial.h"
+#include "libraries/ArduinoJson/src/ArduinoJson/Json/JsonSerializer.hpp"
 #ifndef USER_SERVICE_H
 #define USER_SERVICE_H
 
@@ -18,14 +20,42 @@ public:
         String responseStr;
         JsonDocument doc;
         
-        // Обработка маршрута /v1.0/user/devices и /v1.0/user/devices/query
-        if (uri == "/v1.0/user/devices" || uri == "/v1.0/user/devices/query") {
+        if (uri == "/v1.0/user/devices") {
             std::vector<DeviceModel> devices = DeviceRepository::getAllDevice();
             ResponseModel response(devices);
             response.serializeToJson(doc);
             serializeJson(doc, responseStr);
         } 
-        // Обработка маршрута /v1.0/user/devices/action
+        else if (uri == "/v1.0/user/devices/query" && dataObject.size() > 0) {
+            JsonVariant devicesVariant = TArray::getValueByDotNotation(dataObject, "devices");
+            if (!devicesVariant.is<JsonArray>()) {
+                return "{\"error\": \"Devices are not an array\"}";
+            }
+
+            JsonArray devices = devicesVariant.as<JsonArray>();
+            if (devices.size() == 0) {
+                return "{\"error\": \"No devices found\"}";
+            }
+            
+            for (const JsonObject& deviceData : devices) {
+                if (deviceData["id"].is<const char*>()) {
+                    String id = deviceData["id"].as<String>();
+                    std::string stdId = id.c_str();
+
+                    std::optional<DeviceModel> device = DeviceRepository::getDeviceById(stdId);
+                    if (device) {
+                        std::vector<CapabilityModel*> capabilities = device->getAllCapabilities();
+
+                        for (capability : capabilities) {
+                            capability->setState(HerdDeviceRouterService::stateDevice(*device, capabilities->getType()));
+                        }
+
+                        resultDevices.push_back(*device);  
+                    }
+                }
+            }
+
+        }
         else if (uri == "/v1.0/user/devices/action" && dataObject.size() > 0) {
             JsonVariant devicesVariant = TArray::getValueByDotNotation(dataObject, "payload.devices");
             if (!devicesVariant.is<JsonArray>()) {
@@ -54,8 +84,8 @@ public:
                             CapabilityModel* deviceCapability = device->getCapabilityByType(capability["type"].as<String>());
                             if (deviceCapability != nullptr) {
                               if (deviceData["capabilities"].is<JsonArray>()){
-                                CapabilityService::setActionStatus(*deviceCapability, "on", HerdDeviceRouterService::processDevice(*device, deviceData["capabilities"]));
-                                resultDevices.push_back(*device);
+                                CapabilityService::setActionStatus(*deviceCapability, "off", HerdDeviceRouterService::processDevice(*device, deviceData["capabilities"]));
+                                resultDevices.push_back(*device); // изменить вот здесь ^ это не правильно т.к. instance может быть разный
                               }
                             }
                         }
@@ -67,7 +97,6 @@ public:
             responseModel.serializeToJson(doc);
             serializeJson(doc, responseStr);
         } 
-        // Обработка маршрута по умолчанию (если ничего не найдено)
         else {
             return "{\"error\": \"Not Found\"}";
         }

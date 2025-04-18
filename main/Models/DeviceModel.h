@@ -43,6 +43,15 @@ public:
         return nullptr;
     }
 
+    std::vector<CapabilityModel*> getAllCapabilities() const {
+        std::vector<const CapabilityModel*> result;
+        for (const auto& capability : capabilities) {
+            result.push_back(&capability);
+        }
+        return result;
+    }
+
+
     DeviceTypeEnum getDeviceType() const { return type; }
 
 
